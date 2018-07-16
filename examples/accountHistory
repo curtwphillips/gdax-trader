@@ -1,0 +1,83 @@
+[ // USD Account
+  {
+    "created_at": "2017-11-09T18:38:21.367896Z",
+    "id": 360345805,
+    "amount": "-0.5119628576157000",
+    "balance": "18626.0472968814676000",
+    "type": "fee",
+    "details": {
+      "order_id": "bbebab41-74aa-472a-a29b-0aa261038ffa",
+      "trade_id": "10103094",
+      "product_id": "LTC-USD"
+    }
+  },
+  {
+    "created_at": "2017-11-09T18:38:21.367896Z",
+    "id": 360345804,
+    "amount": "170.6542858719000000",
+    "balance": "18626.5592597390833000",
+    "type": "match",
+    "details": {
+      "order_id": "bbebab41-74aa-472a-a29b-0aa261038ffa",
+      "trade_id": "10103094",
+      "product_id": "LTC-USD"
+    }
+  },
+]
+
+[ // BTC-USD
+  {
+    "created_at": "2017-11-09T18:17:41.522658Z",
+    "id": 360299953,
+    "amount": "-0.5488770900000000",
+    "balance": "0.0000000000000000",
+    "type": "match",
+    "details": {
+      "order_id": "606f562b-3281-4f7f-bd08-6ca8dc42cb06",
+      "trade_id": "23535981",
+      "product_id": "BTC-USD"
+    }
+  },
+  {
+    "created_at": "2017-11-09T18:17:41.49709Z",
+    "id": 360299947,
+    "amount": "-0.0150000000000000",
+    "balance": "0.5488770900000000",
+    "type": "match",
+    "details": {
+      "order_id": "606f562b-3281-4f7f-bd08-6ca8dc42cb06",
+      "trade_id": "23535980",
+      "product_id": "BTC-USD"
+    }
+  }
+]
+
+[ // LTC Account
+  {
+    "created_at": "2017-11-09T18:38:21.367896Z",
+    "id": 360345801,
+    "amount": "-2.6081963300000000",
+    "balance": "0.0000000000000000",
+    "type": "match",
+    "details": {
+      "order_id": "bbebab41-74aa-472a-a29b-0aa261038ffa",
+      "trade_id": "10103094",
+      "product_id": "LTC-USD"
+    }
+  },
+]
+
+[ // ETH Account
+  {
+    "created_at": "2017-06-14T01:12:05.474647Z",
+    "id": 179233358,
+    "amount": "-1.4106000000000000",
+    "balance": "0.0000000000000000",
+    "type": "match",
+    "details": {
+      "order_id": "1be677ed-e66e-4601-a70e-d922ddcf0dca",
+      "trade_id": "5811341",
+      "product_id": "ETH-USD"
+    }
+  },
+]

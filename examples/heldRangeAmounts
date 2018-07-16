@@ -1,0 +1,15 @@
+/*
+  td.heldRangeAmounts[rangeSection] = {
+    coinQty: fill.size,
+    price: fill.price,
+    spent: fill.price * fill.size,
+  };
+*/
+/*
+td.heldRangeAmounts[rangeSection] = {
+  price: price,
+  spent: coinValue,
+  coinQty: coinQty,
+};
+*/
+

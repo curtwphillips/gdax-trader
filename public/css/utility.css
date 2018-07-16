@@ -1,0 +1,203 @@
+.full-width {
+  width: 100%;
+  min-width: 100%;
+}
+.fs-13 {
+  font-size: 13px;
+}
+.fs-14 {
+  font-size: 14px;
+}
+.fs-15 {
+  font-size: 15px;
+}
+.margin-auto {
+  margin: auto;
+}
+.min-h-200 {
+  min-height:200px;
+}
+.mw-95 {
+  max-width: 95%;
+}
+.w-100 {
+  width: 100%;
+}
+.w-98 {
+  width: 98%;
+}
+.w-95 {
+  width: 95%;
+}
+.w-30px {
+  width: 30px;
+}
+.w-20px {
+  width: 30px;
+}
+.no-mp {
+  margin: 0;
+  padding: 0;
+}
+.no-m {
+  margin: 0;
+}
+.no-p {
+  padding: 0;
+}
+.float-left {
+  position: relative;
+  float: left;
+}
+.fs-14 {
+  font-size: 14px;
+}
+.vert-center {
+  vertical-align: middle;
+  padding: 0.375em 0.75em;
+}
+.m-t-10 {
+  margin-top: 10px;
+}
+
+.m-t-20 {
+  margin-top: 20px;
+}
+.m-t-30 {
+  margin-top: 30px;
+}
+.m-b-10 {
+  margin-bottom: 10px;
+}
+.m-b-20 {
+  margin-bottom: 20px;
+}
+.m-b-30 {
+  margin-bottom: 30px;
+}
+.m-b-50 {
+  margin-bottom: 50px;
+}
+.m-l-10 {
+  margin-left: 10px;
+}
+.m-l-5 {
+  margin-left: 5px !important;
+}
+.m-l-20 {
+  margin-left: 20px;
+}
+.m-l-30 {
+  margin-left: 30px;
+}
+.p-t-30 {
+  padding-top: 30px;
+}
+
+.p-a-40 {
+  padding: 40px;
+}
+.p-b-30 {
+  padding-bottom: 30px;
+}
+.p-b-20 {
+  padding-bottom: 20px;
+}
+.p-a-20 {
+  padding: 20px;
+}
+.p-a-10 {
+  padding: 10px;
+}
+.p-a-30 {
+  padding: 30px;
+}
+.p-r-10 {
+  padding-right: 10px;
+}
+.m-r-10 {
+  margin-right: 10px;
+}
+.m-r-20 {
+  margin-right: 20px;
+}
+.m-v-10 {
+  margin: 10px 0;
+}
+
+.m-v-20 {
+  margin: 20px 0;
+}
+
+.m-v-30 {
+  margin: 30px 0;
+}
+.m-a-30 {
+  margin: 30px;
+}
+.m-a-100 {
+  margin: 100px;
+}
+.text-white {
+  color: #fff;
+}
+.mw-100 {
+  min-width: 100px;
+}
+.mw-130 {
+  min-width: 130px;
+}
+.mw-250 {
+  min-width: 250px;
+}
+.mw-300 {
+  min-width: 300px;
+}
+.mw-500 {
+  min-width: 500px;
+}
+.mxw-150 {
+  max-width: 150px;
+}
+.nowrap {
+  white-space: nowrap;
+}
+.inline {
+  display: inline-block;
+}
+.spacer {
+  height: 20px;
+  width: 100%;
+  float:left;
+  position: relative;
+}
+div.spacer-10 {
+  min-height: 10px;
+  height: 10px;
+  display: block;
+}
+div.spacer-20 {
+  min-height: 20px;
+  height: 20px;
+  display: block;
+}
+div.spacer-30 {
+  min-height: 30px;
+  height: 30px;
+  display: block;
+}
+.rem45_300 {
+  font-size: 4.5rem;
+  font-weight: 300;
+}
+.rem35_300 {
+  font-size: 3.5rem;
+  font-weight: 300;
+}
+.rem25_300 {
+  font-size: 2.5rem;
+  font-weight: 300;
+}
+.hidden {
+  display: none;
+}

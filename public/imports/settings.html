@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <script src="/js/settings.js"></script>
+</head>
+<div id="settings-import-container">
+  <form class="m-t-20">
+    <div>
+      <h3>Settings</h3>
+      <p class="fs-15"><i>View and update settings. Click the save button after making changes.</i></p>
+    </div>
+    <hr />
+    <br />
+    <button id="save-settings-button" class="btn btn-primary m-b-10" onclick="settings.saveSettings(event)">
+    Save</button>
+    <div class="form-group row">
+      <div id="settings-success-msg" style="display:none" class="alert alert-success" onclick="errors.clear()">
+      </div>
+    </div>
+    <div class="form-group row">
+      <div id="settings-error-msg" style="display:none" class="col-sm-4 alert alert-danger" onclick="errors.clear()">
+      </div>
+    </div>
+  </form>
+</div>
+</html>

@@ -1,0 +1,24 @@
+/*
+Sidebar navigation
+*/
+.nav-sidebar {
+  margin-right: -21px;
+  margin-bottom: 5px;
+  margin-left: -20px;
+}
+.nav-sidebar > li {
+  text-align: left;
+  padding-right: 20px;
+  padding-left: 20px;
+  margin-bottom: 8px;
+  font-size: .8em;
+  color: #0275d8;
+  cursor: pointer;
+  cursor: hand;
+}
+.nav-sidebar > .active > a,
+.nav-sidebar > .active > a:hover,
+.nav-sidebar > .active > a:focus {
+  color: #fff;
+  background-color: #428bca;
+}

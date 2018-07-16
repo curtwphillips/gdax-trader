@@ -1,0 +1,10 @@
+node_modules
+.DS_Store
+lib/config.js
+.node-*
+plan
+lib/errors
+/Notes
+/notes
+package-lock.json
+/ignore

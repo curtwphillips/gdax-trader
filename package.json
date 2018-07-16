@@ -1,0 +1,31 @@
+{
+  "name": "gdax-trader",
+  "version": "1.0.0",
+  "description": "automated gdax trader",
+  "main": "index.js",
+  "dependencies": {
+    "es6-promisify": "^5.0.0",
+    "gdax": "0.4.2",
+    "koa": "^2.4.1",
+    "koa-bodyparser": "^4.2.0",
+    "koa-cors": "0.0.16",
+    "koa-router": "^7.3.0",
+    "koa-static": "^4.0.2",
+    "lodash": "^4.17.4",
+    "mathjs": "^3.16.5",
+    "moment": "^2.19.2",
+    "promisify": "0.0.3",
+    "q": "^1.5.1",
+    "queue": "^4.4.2",
+    "socket.io": "^2.0.4",
+    "stack-trace": "0.0.10",
+    "winston": "^2.4.0",
+    "winston-daily-rotate-file": "^1.7.2"
+  },
+  "devDependencies": {},
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "author": "Curt Phillips <curtwphillips@gmail.com> (https://curtwphillips.com)",
+  "license": "ISC"
+}

@@ -1,0 +1,78 @@
+
+done, open has a sequence, no trade_id
+
+/* // td.orders.sell[data.order_id]
+{
+  "type": "open",
+  "side": "sell", // buy
+  "price": 59.41,
+  "order_id": "ac0f8963-22c5-4013-beb3-882d7eced57b",
+  "remaining_size": 0.2,
+  "product_id": "LTC-USD",
+  "sequence": 691929983,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-12T05:48:50.848000Z",
+  "size": null
+}
+*/
+/*
+{ // orders[data.order_id]
+  "id": "4d32cfb6-bb79-45b0-b8fd-5c849c952c53",
+  "price": "60.56000000",
+  "size": "0.10000000",
+  "product_id": "LTC-USD",
+  "side": "buy",
+  "stp": "dc",
+  "type": "limit",
+  "time_in_force": "GTC",
+  "post_only": true,
+  "created_at": "2017-11-12T05:25:48.72118Z",
+  "fill_fees": "0.0000000000000000",
+  "filled_size": "0.00000000",
+  "executed_value": "0.0000000000000000",
+  "status": "pending",
+  "settled": false
+}
+*/
+/*
+{ // data - canceled
+  "type": "done",
+  "side": "sell",
+  "order_id": "c8f9c802-7619-41cf-a38e-a1e64c1da2c5",
+  "reason": "canceled",
+  "product_id": "LTC-USD",
+  "price": "60.05000000",
+  "remaining_size": "0.20000000",
+  "sequence": 691883603,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-12T05:37:25.613000Z"
+}
+*/
+
+/*
+td.orders[side][orderResult.id]: {
+    order: {
+      open: {
+        "type": "open",
+        "side": "sell", // buy
+        "price": 59.41,
+        "order_id": "ac0f8963-22c5-4013-beb3-882d7eced57b",
+        "remaining_size": 0.2,
+        "product_id": "LTC-USD",
+        "sequence": 691929983,
+        "user_id": "578b12fceb342e050a000267",
+        "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+        "time": "2017-11-12T05:48:50.848000Z",
+        "size": null
+      },
+      status2: {},
+      status3: {},
+    status: 'filled', // pending, canceled
+    section: 0,
+    size: 0,
+    remainingSize: 0,
+    spent: 0,
+}
+*/

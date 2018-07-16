@@ -1,0 +1,426 @@
+<!-- 
+This file is not hooked up to the trader. It has it's own algorithms that may come in handy. Open with chrome browser.
+-->
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <!-- css -->
+  <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/4.0.0-alpha.6/css/bootstrap.min.css" integrity="sha384-rwoIResjU2yc3z8GV/NPeZWAv56rSmLldC3R/AZzGRnGxQQKnKkoFVhFQhNUwEyJ" crossorigin="anonymous">
+  <!-- js -->
+  <script
+  src="https://code.jquery.com/jquery-3.1.1.min.js"
+  integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+  crossorigin="anonymous"></script>
+  <script src="https://d3js.org/d3.v4.min.js"></script>
+  <style>
+    .line {
+      fill: none;
+      stroke: steelblue;
+      stroke-width: 1.5px;
+    }
+    form {
+      padding: 20px;
+    }
+  </style>
+</head>
+<body>
+<form>
+  <p>A <i>point</i> refers to a point in time that a price is measured. <i>Points to Average</i> refers to how many past points are used to calculate the average price at a given point. <i>Number of Points</i> refers to how many points will span across the x axis. <i>Max Change Per Point</i> refers to the greatest jump in price possible between two consecutive points. <i>Take Action Change</i> refers to the amount the average must change between two consecutive points to initiate a buy or sell. <i>Reuse Existing Data</i> means recalculate averages, buys, and sells with the existing price point data. This is useful for making adjustments and seeing how they change the current data.</p>
+  <hr />
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Averaging Method</label>
+    <div class="col-sm-4 vert-center">
+      <select id="trader-avg-select" class="form-control form-control-md">
+        <option value="weightedMovingAvg">Weighted Moving Average</option>
+      </select>
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Points to Average</label>
+    <div class="col-sm-4 vert-center">
+      <input id="trader-avg-count-input" type="number" name="quantity" min="1" value="10">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Number of Points</label>
+    <div class="col-sm-4 vert-center">
+      <input id="trader-price-changes-input" type="number" name="" min="20" value="200">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Max Change Per Point</label>
+    <div class="col-sm-4 vert-center">
+      <input id="trader-max-change-input" type="number" name="" min="1" value="3">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Take Action Change</label>
+    <div class="col-sm-4 vert-center">
+      <input id="trader-action-change-input" type="number" name="" min="0" value="0">
+    </div>
+  </div>
+  <div class="form-group row">
+    <label class="col-sm-2 form-control-label">Reuse Existing Data</label>
+    <input type="checkbox" id="trader-reuse-checkbox">
+  </div>
+  <button id="index-generate-button" class="btn btn-primary m-b-10" onclick="trader.getData(event); return false;">Generate Data</button>
+</form>
+<svg width="1160" height="500"></svg>
+
+<script>
+/**
+ * Generate price change data sets to test algorithms against
+ *
+ * maxChange #, maximum price dollar change between two times
+ * qty #, number of price changes to create
+ * increaseLevel #, price shifts up if rand is above
+ */
+var trader = (function () {
+  // hold the info for the data set
+  var set;
+
+  function getData (event) {
+    event.preventDefault();
+    var existingData;
+    if (set) {
+      existingData = set.data;
+    }
+    set = {
+      maxChange: $('#trader-max-change-input').val(),
+      qty: $('#trader-price-changes-input').val(),
+      increaseLevel: .5,
+      min: 5,
+      avgType: $('#trader-avg-select').val(),
+      txsToAvg: $('#trader-avg-count-input').val(),
+      actionChange: $('#trader-action-change-input').val(),
+      reuseData: $('#trader-reuse-checkbox').prop('checked'),
+    }
+    $('svg').empty();
+    if (!existingData || (existingData && !set.reuseData)) {
+      generate();
+    } else {
+      set.data = existingData;
+    }
+    run();
+    makeChart();
+  }
+
+  function generate () {
+    // place to store data
+    set.data = [];
+    // starting price
+    var lastPrice = 1000;
+    // add first price
+    set.data.push(lastPrice);
+    // generate price data
+    for (var i = 0; i < set.qty; i++) {
+      // number to decide increase or decrease
+      var rand = Math.random();
+      // whether to increase or decrease
+      var changeType = 'down';
+      // increase if above increase threshhold or price near 0
+      if (rand > set.increaseLevel) {
+        changeType = 'up';
+      } else if (lastPrice - change < 0) {
+        changeType = 'up';
+      }
+      // number to calculate change in price
+      rand = Math.random();
+      // amount of price change
+      var change = rand * set.maxChange;
+      // make new price
+      if (changeType === 'up') {
+        lastPrice += change;
+      } else {
+        lastPrice -= change;
+      }
+      // save price
+      set.data.push(lastPrice);
+    }
+  };
+
+  /**
+   * Runs the algorithms over last generated data
+   */
+  function run () {
+    /**
+     * hold averages and prices over averaging range
+     *
+     * array of objects
+     * avg: #
+     * price: #
+     * dollars: #
+     * btc: #
+     */
+    var avgData = [];
+    for (var i = 0; i < set.data.length; i++) {
+      var price = set.data[i];
+      var current = {
+        price: price,
+        index: i,
+      }
+      if (i > 0) {
+        current.dollars = avgData[i-1].dollars;
+        current.btc = avgData[i-1].btc;
+      }
+      if (i < set.min) {
+        current.dollars = price;
+        current.btc = 0;
+        if (i === 0) {
+
+        } else {
+
+          var index = avgData.length - 1;
+          var sliceAt = 0;
+          if (avgData.length > set.txsToAvg) {
+            sliceAt = avgData.length - set.txsToAvg;
+          }
+          avgData[index].avg = getAverage({
+            data: avgData.slice(sliceAt),
+            type: set.avgType,
+          });
+        }
+        if (current.dollars === 0) {
+          current.balance = current.btc * current.price;
+        } else {
+          current.balance = current.dollars;
+        }
+        avgData.push(current);
+        continue;
+      }
+      var index = avgData.length - 1;
+      var sliceAt = 0;
+      if (avgData.length > set.txsToAvg) {
+        sliceAt = avgData.length - set.txsToAvg;
+      }
+      avgData[index].avg = getAverage({
+        data: avgData.slice(sliceAt),
+        type: set.avgType,
+      });
+      if (avgData[index-1].avg) {
+        var avgDiff = Math.abs(avgData[index].avg - avgData[index-1].avg);
+        if (avgDiff > set.actionChange) {
+          if (avgData[index].avg < avgData[index-1].avg) {
+            // sell if avg price starts declining
+            current = trade({
+              type: 'sell',
+              current: current,
+            });
+          } else {
+            // buy if avg price starts rising
+            current = trade({
+              type: 'buy',
+              current: current,
+            });
+          }
+        } else {
+          current.trade = 'stay';
+        }
+      }
+      if (current.dollars === 0) {
+        current.balance = current.btc * current.price;
+      } else {
+        current.balance = current.dollars;
+      }
+      avgData.push(current);
+    } // end set data
+    set.set = set.set || {};
+    // set the final average
+    var index = avgData.length - 1;
+    var sliceAt = 0;
+    if (avgData.length > set.txsToAvg) {
+      sliceAt = avgData.length - set.txsToAvg;
+    }
+    avgData[index].avg = getAverage({
+      data: avgData.slice(sliceAt),
+      type: set.avgType,
+    });
+    set.avgData = avgData;
+  };
+
+  getAverage = function (opts) {
+    try {
+      var avg = 0;
+      switch (opts.type) {
+        case 'weightedMovingAvg':
+          var weight = 0;
+          for (var i = 0; i < opts.data.length; i++) {
+            weight += i + 1;
+          }
+          for (var i = 0; i < opts.data.length; i++) {
+            avg += opts.data[i].price * (i + 1) / weight;
+          }
+          break;
+        default:
+          throw new Error('average case not found');
+      }
+      return avg;
+    } catch (error) {
+      console.log(error.stack);
+    }
+  };
+
+  // buy exactly 1 btc on first buy.
+  var firstBuy = true;
+  /**
+   * trades if balances available
+   *
+   * opts {}
+   * type 'buy' or 'sell'
+   * current {type, dollars, btc, price}
+   */
+  trade = function (opts) {
+    opts.current.trade = 'stay';
+    if (opts.type === 'buy') {
+      if (firstBuy) {
+        opts.current.btc = 1;
+        opts.current.dollars = 0;
+        opts.current.trade = 'buy';
+        firstBuy = false;
+      } else if (opts.current.dollars !== 0) {
+        opts.current.btc = opts.current.dollars / opts.current.price;
+        opts.current.dollars = 0;
+        opts.current.trade = 'buy';
+      }
+    } else {
+      if (opts.current.btc !== 0) {
+        opts.current.dollars = opts.current.btc * opts.current.price;
+        opts.current.btc = 0;
+        opts.current.trade = 'sell';
+      }
+    }
+    return opts.current;
+  };
+  return {
+    getData: getData,
+  }
+
+  function makeChart () {
+    var data = set.avgData;
+    for (var i = 0; i < data.length; i++) {
+      console.log(JSON.stringify(data[i]));
+    }
+    data.columns = ['index', 'price', 'balance', 'avg'];
+    var svg = d3.select("svg");
+    var margin = {top: 20, right: 80, bottom: 30, left: 50};
+    var width = svg.attr("width") - margin.left - margin.right;
+    var height = svg.attr("height") - margin.top - margin.bottom;
+    var g = svg.append("g").attr("transform", "translate(" + margin.left + "," + margin.top + ")");
+
+    var x = d3.scaleLinear().range([0, width]);
+    var y = d3.scaleLinear().range([height, 0]);
+    var z = d3.scaleOrdinal(d3.schemeCategory10);
+
+    var line = d3.line()
+      .curve(d3.curveBasis)
+      .x(function(d) { return x(d.index); })
+      .y(function(d) { return y(d.price); });
+
+
+
+
+
+
+
+      var priceTypes = data.columns.slice(1).map(function(col_name) {
+        return {
+          id: col_name,
+          values: data.map(function(d) {
+            return {index: d.index, price: d[col_name] || 0};
+          })
+        };
+      });
+
+      x.domain(d3.extent(data, function(d) { return d.index; }));
+
+      y.domain([
+        d3.min(priceTypes, function(c) { return d3.min(c.values, function(d) { return d.price || 0; }); }),
+        d3.max(priceTypes, function(c) { return d3.max(c.values, function(d) { return d.price || 0; }); })
+      ]);
+      z.domain(priceTypes.map(function(c) { return c.id; }));
+      g.append("g")
+        .attr("class", "axis axis--x")
+        .attr("transform", "translate(0," + height + ")")
+        .call(d3.axisBottom(x));
+      g.append("g")
+          .attr("class", "axis axis--y")
+          .call(d3.axisLeft(y))
+        .append("text")
+          .attr("transform", "rotate(-90)")
+          .attr("y", 6)
+          .attr("dy", "0.71em")
+          .attr("fill", "#000")
+          .text("$");
+      var city = g.selectAll(".city")
+        .data(priceTypes)
+        .enter().append("g")
+          .attr("class", "city");
+      city.append("path")
+          .attr("class", "line")
+          .attr("d", function(d) { 
+            return line(d.values); })
+          .style("stroke", function(d) { 
+            return z(d.id); });
+      city.append("text")
+          .datum(function(d) { return {id: d.id, value: d.values[d.values.length - 1]}; })
+          .attr("transform", function(d) { 
+            return "translate(" + x(d.value.index) + "," + y(d.value.price) + ")"; })
+          .attr("x", 3)
+          .attr("dy", "0.35em")
+          .style("font", "10px sans-serif")
+          .text(function(d) { return d.id; });
+
+    function type(d, _, columns) {
+      d.index = d.index;
+      for (var i = 1, n = columns.length, c; i < n; ++i) d[c = columns[i]] = +d[c];
+      return d;
+    }
+  }
+}()); // end trader
+
+var utility = (function () {
+  /**
+   * round a number down with a specified number of decimals left over
+   */
+  function round (value, decimals) {
+    decimals = decimals || 0;
+    return Number(Math.round(value+'e'+decimals)+'e-'+decimals);
+  }
+
+  // subtract using integers to avoid things like 0.000131 - 0.000022 equaling 0.00010900000000000002 instead of 0.000109
+  function doMath (type, val1, val2) {
+    var types = ['add', 'subtract',];
+    if (types.indexOf(type) === -1) {
+      throw new Error('utility.doMath requires one of these types: ' + types + ', but received type: ' + type);
+    }
+    if (isNaN(val1) || isNaN(val2)) {
+      throw new Error('utility.doMath only accepts numbers, but received val1 ' + val1 + ' of type ' + typeof(val1) + ' and val2 ' + val2 + ' of type ' + typeof(val2));
+    }
+
+    var val1Decimals = exports.countDecimals(val1);
+    var val2Decimals = exports.countDecimals(val2);
+    var biggerDecimals = Math.max(val1Decimals, val2Decimals);
+    var tempVal1 = Number(val1 + 'e' + biggerDecimals);
+    var tempVal2 = Number(val2 + 'e' + biggerDecimals);
+    var tempAnswer;
+    if (type === 'subtract') {
+      tempAnswer = tempVal1 - tempVal2;
+    } else if (type === 'add') {
+      tempAnswer = tempVal1 + tempVal2;
+    }
+    var answer = Number(tempAnswer  + 'e-' + biggerDecimals);
+    if (isNaN(answer)) {
+      throw new Error('answer is not a number for type: ' + type + ', val1: ' + val1 + ', val2: ' + val2);
+    }
+    return answer
+  }
+
+  return {
+    doMath: doMath,
+    round: round,
+  };
+}()); // end utility
+
+</script>
+</body>
+</html>

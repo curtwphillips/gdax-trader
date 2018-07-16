@@ -1,0 +1,126 @@
+// TYPES - open, done, match, received, etc.
+
+websocket message: {
+  "type": "received",
+  "order_id": "cf75092f-9b39-4e10-bbe7-dcd6d2f7d63b",
+  "order_type": "limit",
+  "size": "0.20000000",
+  "price": "61.37000000",
+  "side": "sell",
+  "client_oid": "abf52ad7-42f1-4a8d-b209-180ca863c04c",
+  "product_id": "LTC-USD",
+  "sequence": 685205177,
+  "time": "2017-11-10T15:49:58.504000Z"
+}
+websocket message: {
+  "type": "received",
+  "order_id": "86c9fa76-853d-410f-802c-f4c3998ebd7c",
+  "order_type": "limit",
+  "size": "0.10000000",
+  "price": "6840.50000000",
+  "side": "buy",
+  "client_oid": "cca6b2a0-361a-4614-f160-8b58397755cc",
+  "product_id": "BTC-USD",
+  "sequence": 4349815739,
+  "time": "2017-11-10T15:49:58.519000Z"
+}
+
+/*
+{"type":"open","side":"sell","price":61.37,"order_id":"da579921-27b4-4207-8e14-5cc11e459ed9","remaining_size":0.01,"product_id":"LTC-USD","sequence":691168746,"user_id":"578b12fceb342e050a000267","profile_id":"542cabb6-eacd-4d5d-a116-268df430fb2b","time":"2017-11-12T02:20:21.787000Z","size":null}
+*/
+/*
+{"type":"done","side":"sell","order_id":"153863c9-f822-4161-9f25-3083e344c8dd","reason":"filled","product_id":"LTC-USD","price":61.58,"remaining_size":0,"sequence":691156803,"user_id":"578b12fceb342e050a000267","profile_id":"542cabb6-eacd-4d5d-a116-268df430fb2b","time":"2017-11-12T02:16:31.389000Z","size":null}
+*/
+/*
+{"type":"match","trade_id":10429518,"maker_order_id":"153863c9-f822-4161-9f25-3083e344c8dd","taker_order_id":"2ab99979-d9ca-4554-bb35-5752106c6bee","side":"sell","size":0.01,"price":61.58,"product_id":"LTC-USD","maker_user_id":"578b12fceb342e050a000267","user_id":"578b12fceb342e050a000267","maker_profile_id":"542cabb6-eacd-4d5d-a116-268df430fb2b","profile_id":"542cabb6-eacd-4d5d-a116-268df430fb2b","sequence":691156802,"time":"2017-11-12T02:16:31.389000Z","remaining_size":null}
+*/
+
+/*
+{
+  "type": "received",
+  "order_id": "1fc2bc6c-8741-4073-a52c-3b2b9b7555b6",
+  "order_type": "limit",
+  "size": "0.05000000",
+  "price": "6650.00000000",
+  "side": "buy",
+  "client_oid": "9e419c4c-f200-4088-9a3b-aeb33d5eaf2f",
+  "product_id": "BTC-USD",
+  "sequence": 4353276713,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-11T07:56:09.417000Z"
+}
+(open)
+{
+  "type": "match",
+  "trade_id": 10291067,
+  "maker_order_id": "3c641294-291b-4696-9408-d1149edc7843",
+  "taker_order_id": "b8855703-56a4-4b12-9952-ae8710e3a3ec",
+  "side": "sell",
+  "size": "0.01000000",
+  "price": "61.40000000",
+  "product_id": "LTC-USD",
+  "maker_user_id": "578b12fceb342e050a000267",
+  "user_id": "578b12fceb342e050a000267",
+  "maker_profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "sequence": 687928633,
+  "time": "2017-11-11T08:02:23.710000Z"
+}
+{
+  "type": "done",
+  "side": "sell",
+  "order_id": "3c641294-291b-4696-9408-d1149edc7843",
+  "reason": "filled",
+  "product_id": "LTC-USD",
+  "price": "61.40000000",
+  "remaining_size": "0.00000000",
+  "sequence": 687928634,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-11T08:02:23.710000Z"
+}
+{
+  "type": "done",
+  "side": "sell",
+  "order_id": "88d1a59a-742d-496b-8ee7-eb61492763bc",
+  "reason": "canceled",
+  "product_id": "LTC-USD",
+  "price": "61.62000000",
+  "remaining_size": "0.05000000",
+  "sequence": 687929906,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-11T08:02:45.718000Z"
+}
+  { // fill (to compare to match)
+    "created_at": "2017-11-10T20:43:57.344Z",
+    "trade_id": 23636785,
+    "product_id": "BTC-USD",
+    "order_id": "d9b6a489-e240-4221-92f0-0210b4398896",
+    "user_id": "578b12fceb342e050a000267",
+    "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+    "liquidity": "M",
+    "price": "6450.00000000",
+    "size": "0.05000000",
+    "fee": "0.0000000000000000",
+    "side": "buy",
+    "settled": true
+  },
+*/
+
+/*
+{
+  "type": "open",
+  "side": "buy",
+  "price": "6650.00000000",
+  "order_id": "1fc2bc6c-8741-4073-a52c-3b2b9b7555b6",
+  "remaining_size": "0.05000000",
+  "product_id": "BTC-USD",
+  "sequence": 4353276714,
+  "user_id": "578b12fceb342e050a000267",
+  "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+  "time": "2017-11-11T07:56:09.417000Z"
+}
+*/
+

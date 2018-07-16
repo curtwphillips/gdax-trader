@@ -1,0 +1,119 @@
+{
+  "productId": "BTC-USD",
+  "currency": "BTC",
+  "account": {
+    "id": "0b317b4f-62dc-4efe-9405-79d8f2c67a41",
+    "currency": "BTC",
+    "balance": 0.96607629,
+    "available": 0.96607629,
+    "hold": 0,
+    "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b"
+  },
+  "ticker": {
+    "trade_id": 24287379,
+    "price": 7194.21,
+    "size": "0.68913934",
+    "bid": "7194.2",
+    "ask": "7194.21",
+    "volume": "23669.65392051",
+    "time": "2017-11-16T03:29:47.404000Z"
+  },
+  "rangeSize": 7.19421,
+  "orders": {
+    "buy": {
+      "a05d8879-6e48-4148-8298-2ed89bda498f": {
+        "matchedAmount": 0,
+        "matches": [],
+        "data": {
+          "response": {
+            "created_at": "2017-11-16T01:44:56.776Z",
+            "trade_id": 24282843,
+            "product_id": "BTC-USD",
+            "order_id": "a05d8879-6e48-4148-8298-2ed89bda498f",
+            "user_id": "578b12fceb342e050a000267",
+            "profile_id": "542cabb6-eacd-4d5d-a116-268df430fb2b",
+            "liquidity": "M",
+            "price": 7145.07,
+            "size": 0.01,
+            "fee": "0.0000000000000000",
+            "side": "buy",
+            "settled": true
+          }
+        },
+        "filled": true,
+        "price": 7145.07,
+        "remainingSize": 0,
+        "section": 993,
+        "side": "buy",
+        "size": 0.01,
+        "spent": 71.4507,
+        "status": "done"
+      },
+    "sell": {
+      "b5357f58-7791-428f-b5a7-5fd235972d56": {
+        "matchedAmount": 0,
+        "matches": [],
+        "data": {
+          "response": {
+            "id": "b5357f58-7791-428f-b5a7-5fd235972d56",
+            "price": 7201.41,
+            "size": 0.01,
+            "product_id": "BTC-USD",
+            "side": "sell",
+            "stp": "dc",
+            "type": "limit",
+            "time_in_force": "GTC",
+            "post_only": true,
+            "created_at": "2017-11-16T03:29:54.946613Z",
+            "fill_fees": 0,
+            "filled_size": 0,
+            "executed_value": 0,
+            "status": "pending",
+            "settled": false
+          }
+        },
+        "filled": false,
+        "price": 7201.41,
+        "remainingSize": 0.01,
+        "section": 1001,
+        "side": "sell",
+        "size": 0.01,
+        "spent": 72.0141,
+        "status": "pending"
+      }
+    }
+  },
+  "size": 0.96607629,
+  "moving": {
+    "points": [
+      7250.01,
+      7234.5,
+      7234.3,
+    ],
+    "avg": 7178.86,
+    "lastAvg": 7178.86,
+    "direction": "down"
+  },
+  "awaiting": {
+    "buy": false,
+    "sell": false
+  },
+  "avgBuyPrice": 7205.83,
+  "bought": 0,
+  "held": 0,
+  "prices": {
+    "buy": 0,
+    "highestFill": 0,
+    "lowestFill": 0,
+    "sell": 0,
+    "seen": 0,
+    "lowest": 7130,
+    "highest": 7250.01,
+    "lowestEver": 7130,
+    "highestEver": 7250.01,
+    "middle": 7190.01,
+    "middleEver": 7190.01
+  },
+  "priceSection": 1000,
+  "price": 7194.21
+}

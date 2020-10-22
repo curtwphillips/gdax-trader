@@ -1,11 +1,11 @@
-var retries = 0;
+let retries = 0;
 
 (function () {
   function init () {
     // get the import
-    var theImport = document.querySelector('#navbar-import');
+    let theImport = document.querySelector('#navbar-import');
     // get the imported html
-    var htmlDoc = theImport.import;
+    let htmlDoc = theImport.import;
     // if not compatible browser, htmlDoc is null
     if (!htmlDoc) {
       return setTimeout(function () {
@@ -16,7 +16,7 @@ var retries = 0;
       }, 100);
     }
     // get the nav elem from the imported html
-    var elem = htmlDoc.querySelector('#main-nav');
+    let elem = htmlDoc.querySelector('#main-nav');
     // insert the nav element into the html body
     document.body.insertBefore(elem, document.body.childNodes[0]);
   }

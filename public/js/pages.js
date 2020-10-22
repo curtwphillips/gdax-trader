@@ -8,63 +8,55 @@
   get new search data
   build table
 */
-var pages = (function () {
-  var viewElement;
+let pages = (function () {
+  let viewElement;
   // save previously attached view ids
-  var attachedViews = [];
-  var view, viewPath, table;
+  let attachedViews = [];
+  let view, viewPath, table;
   // ref to view
-  var modals; // fill in after dom loaded
-  var defaultShowableIds = [
-    {id: 'main-content'}, // show for home page
-    {id: 'portal-container'}, // show for portal page
+  let modals; // fill in after dom loaded
+  let defaultShowableIds = [
+    { id: "main-content" }, // show for home page
+    { id: "portal-container" }, // show for portal page
   ];
   /*
-    configures the various views
+    configures the letious views
     importLinkId is the id of the imported html file's <link> tag
   */
-  var views = {
-    '/': {
-      title: 'Home Page',
-      showIds: [
-        'main-content',
-      ],
+  let views = {
+    "/": {
+      title: "Home Page",
+      showIds: ["main-content"],
     },
-    '/live': {
-      title: 'live',
-      namespace: 'live',
-      importLinkId: 'live-import',
-      importInnerId: 'live-import-container',
-      showIds: [
-        'portal-container',
-      ],
+    "/live": {
+      title: "live",
+      namespace: "live",
+      importLinkId: "live-import",
+      importInnerId: "live-import-container",
+      showIds: ["portal-container"],
     },
-    '/helpful-links': {
-      title: 'Helpful Links',
-      namespace: 'links',
-      importLinkId: 'helpful-links-import',
-      importInnerId: 'helpful-links-import-container',
-      showIds: [
-        'portal-container',
-      ],
+    "/helpful-links": {
+      title: "Helpful Links",
+      namespace: "links",
+      importLinkId: "helpful-links-import",
+      importInnerId: "helpful-links-import-container",
+      showIds: ["portal-container"],
     },
-    '/settings': {
-      title: 'Settings',
-      importLinkId: 'settings-import',
-      importInnerId: 'settings-import-container',
-      namespace: 'settings',
-      showIds: [
-        'portal-container',
-      ],
+    "/settings": {
+      title: "Settings",
+      importLinkId: "settings-import",
+      importInnerId: "settings-import-container",
+      namespace: "settings",
+      showIds: ["portal-container"],
     },
   };
 
   // initial set up
-  window.addEventListener('WebComponentsReady', function(e) {
+  window.addEventListener("WebComponentsReady", function (e) {
     try {
       // set up modal info for when modals are opened
       modals = {
-        'list-edit-modal': {
+        "list-edit-modal": {
           setupFn: listEditModal.setupModal,
           requiresRows: true,
         },
@@ -76,10 +68,13 @@ var pages = (function () {
   });
 
   // add an info box to show user selections changed and table has stale data
-  function onSelectionsChanged (event) {
+  function onSelectionsChanged(event) {
     try {
       if (table && table.selectionsChangedMsgId) {
-        errors.handleSuccess('selections have changed since last search', table.selectionsChangedMsgId);
+        errors.handleSuccess(
+          "selections have changed since last search",
+          table.selectionsChangedMsgId
+        );
       }
     } catch (error) {
       console.log(error);
@@ -88,34 +83,34 @@ var pages = (function () {
   }
 
   // used to change the view to imported html
-  function attachImport () {
+  function attachImport() {
     try {
       if (!viewElement) {
-        viewElement = $('#portal-view');
+        viewElement = $("#portal-view");
       }
-      var importLinkId = view.importLinkId;
+      let importLinkId = view.importLinkId;
       if (importLinkId) {
-        var importInnerId = view.importInnerId;
+        let importInnerId = view.importInnerId;
         if (!importInnerId) {
-          importInnerId = 'import-container';
+          importInnerId = "import-container";
         }
-        for (var i = 0; i < attachedViews.length; i++) {
+        for (let i = 0; i < attachedViews.length; i++) {
           if (attachedViews[i] !== importInnerId) {
-            $('#portal-view #'+attachedViews[i]).hide();
+            $("#portal-view #" + attachedViews[i]).hide();
           }
         }
         if (attachedViews.indexOf(importInnerId) === -1) {
           attachedViews.push(importInnerId);
         } else {
-          $('#portal-view #'+importInnerId).show();
+          $("#portal-view #" + importInnerId).show();
           return;
         }
         // get the import
-        var imported = document.querySelector('#' + importLinkId);
+        let imported = document.querySelector("#" + importLinkId);
         // get the imported html from the import
-        var html = imported.import;
+        let html = imported.import;
         // get the inner element from the imported html which gets attached to the dom
-        var importElement = html.querySelector('#' + importInnerId);
+        let importElement = html.querySelector("#" + importInnerId);
         viewElement.append(importElement);
       }
     } catch (error) {
@@ -130,18 +125,23 @@ var pages = (function () {
    * @param data {rowData: [], ...} contains the properties used to buile
    * the table, requires rowData array
    */
-  function buildTable (data) {
+  function buildTable(data) {
     try {
       // make sure view is initialized
       if (!portal.isDomReady()) {
         return setTimeout(function () {
-          buildTable (data);
+          buildTable(data);
         }, 20);
       }
       // don't process empty results
-      if (!data || !data.rowData || !Array.isArray(data.rowData) || data.rowData.length === 0) {
-        errors.handleError('No data available', data.errorMsgId);
-        return {error: true};
+      if (
+        !data ||
+        !data.rowData ||
+        !Array.isArray(data.rowData) ||
+        data.rowData.length === 0
+      ) {
+        errors.handleError("No data available", data.errorMsgId);
+        return { error: true };
       }
       // show buttons that go with data
       // params dataExists, showableIds, showIds, hideIds
@@ -149,9 +149,9 @@ var pages = (function () {
       // each row object will hold the meta data for the row and the row itself
       data.rows = [];
       if (!data.rowData) {
-        throw new Error('table rows were not found');
+        throw new Error("table rows were not found");
       } else {
-        for (var i = 0; i < data.rowData.length; i++) {
+        for (let i = 0; i < data.rowData.length; i++) {
           data.rows.push({
             pristineRow: data.rowData[i],
           });
@@ -180,10 +180,10 @@ var pages = (function () {
   }
 
   // returns array of original row numbers for checked rows that are unfiltered
-  function getCheckedRows () {
+  function getCheckedRows() {
     try {
-      var checkedRows = [];
-      $('input:checked[data-row-checkbox="true"]:visible').each(function() {
+      let checkedRows = [];
+      $('input:checked[data-row-checkbox="true"]:visible').each(function () {
         checkedRows.push($(this).attr("row"));
       });
       return checkedRows;
@@ -194,7 +194,7 @@ var pages = (function () {
   }
 
   // get data that should be shown automatically on view load
-  function getInitialData () {
+  function getInitialData() {
     try {
       if (!portal.isDomReady()) {
         return setTimeout(function () {
@@ -203,7 +203,7 @@ var pages = (function () {
       }
       if (view.namespace && pages.namespaces[view.namespace]) {
         if (pages.namespaces[view.namespace].viewConfig) {
-          for (var key in pages.namespaces[view.namespace].viewConfig) {
+          for (let key in pages.namespaces[view.namespace].viewConfig) {
             view[key] = pages.namespaces[view.namespace].viewConfig[key];
           }
         }
@@ -217,11 +217,10 @@ var pages = (function () {
     }
   }
 
-
   // get a row with original order
-  function getRowFromOriginalOrder (originalRowNumber, tableData) {
+  function getRowFromOriginalOrder(originalRowNumber, tableData) {
     try {
-      var i;
+      let i;
       if (!originalRowNumber && originalRowNumber !== 0) {
         return;
       }
@@ -240,14 +239,14 @@ var pages = (function () {
     }
   }
   // return selected instance info
-  function getSelectedInstancesInfo () {
+  function getSelectedInstancesInfo() {
     return selectedInstancesInfo;
   }
   // return the selected set of rows
-  function getSelectedRows () {
+  function getSelectedRows() {
     try {
-      var checkedRows = getCheckedRows();
-      var selectedRows = [];
+      let checkedRows = getCheckedRows();
+      let selectedRows = [];
       // only include selected rows that are not already in the correct state
       for (i = 0; i < checkedRows.length; i++) {
         rowIndex = checkedRows[i];
@@ -265,16 +264,15 @@ var pages = (function () {
     }
   }
 
-
   // used to share the current view's title
-  function getTitle () {
+  function getTitle() {
     return view.title;
   }
-  function getView () {
+  function getView() {
     return view;
   }
   // called by portal.js for changing views
-  function initializeView () {
+  function initializeView() {
     try {
       if (!portal.isDomReady()) {
         return setTimeout(function () {
@@ -283,8 +281,8 @@ var pages = (function () {
       }
       // remove all prior added view elems
       $('[removable="true"]').remove();
-      $('#table-caption').hide();
-      $('#table-caption').text('');
+      $("#table-caption").hide();
+      $("#table-caption").text("");
       errors.clear();
       // set title
       // $('#view-title').text(view.title);
@@ -292,10 +290,10 @@ var pages = (function () {
       // $('#export-button').attr('disabled', true);
       showHideIds(null, view.showableIds);
       // get user settings
-// TODO initialize data within namespaces
+      // TODO initialize data within namespaces
       getInitialData();
       if (view.initializeFunctions) {
-        for (var i = 0; i < view.initializeFunctions.length; i++) {
+        for (let i = 0; i < view.initializeFunctions.length; i++) {
           initializeFunctions[view.initializeFunctions[i]]();
         }
       }
@@ -306,25 +304,25 @@ var pages = (function () {
   }
 
   // set view information for current view
-  function setView (path) {
+  function setView(path) {
     view = views[path];
     viewPath = path;
   }
 
   // show only elements the current view needs
-  function showHideIds (dataExists, showableIds, showIds) {
+  function showHideIds(dataExists, showableIds, showIds) {
     try {
-      var userRole = settings.role;
+      let userRole = settings.role;
       showableIds = showableIds || defaultShowableIds;
-      var show, i;
+      let show, i;
       showIds = showIds || view.showIds;
       // for each showable id
       for (i = 0; i < showableIds.length; i++) {
         // default to hide
         show = false;
-        var showableData = showableIds[i];
+        let showableData = showableIds[i];
         if (showableData.requiresSearchResults && !dataExists) {
-          $('#'+showableData.id).hide();
+          $("#" + showableData.id).hide();
           continue;
         }
         // if this view uses the id
@@ -335,36 +333,36 @@ var pages = (function () {
             if (showableData.viewRoles[view.title].indexOf(userRole) !== -1) {
               show = true;
             }
-          // if view role is not specified use default roles
+            // if view role is not specified use default roles
           } else if (showableData.roles) {
             if (showableData.roles.indexOf(userRole) !== -1) {
               show = true;
             }
-          // if roles are not specified show to anyone
+            // if roles are not specified show to anyone
           } else {
             show = true;
           }
         }
         // show or hide elements in dom
         if (show) {
-          $('#'+showableData.id).show();
+          $("#" + showableData.id).show();
         } else {
-          $('#'+showableData.id).hide();
+          $("#" + showableData.id).hide();
         }
       }
       // for each showId not in showable ids
       if (showIds) {
         for (i = 0; i < showIds.length; i++) {
-          var showableId = showIds[i];
+          let showableId = showIds[i];
           show = true;
-          for (var j = 0; j < showableIds.length; j++) {
+          for (let j = 0; j < showableIds.length; j++) {
             if (showableIds[j].id === showableId) {
               show = false;
               break;
             }
           }
           if (show) {
-            $('#'+showableId).show();
+            $("#" + showableId).show();
           }
         }
       }
@@ -382,46 +380,61 @@ var pages = (function () {
       if (!tableData) {
         tableData = table;
       }
-      var errorMsgId = table.errorMsgId;
-      var opts = {
+      let errorMsgId = table.errorMsgId;
+      let opts = {
         rowIndex: origRowNum,
         crudType: crudType,
         tableData: tableData,
       };
-      var selectedRows = [];
-      var checkedRows;
+      let selectedRows = [];
+      let checkedRows;
       // erase saved selected instances
       selectedInstancesInfo = null;
       // set new selected instances if required, crons modal does not use pre-selected instances
-// TODO remove 'Crons view check' ? ******************************
-// TODO instance code should be in aws namespace ? ******************************
-      if (modals[modalName] && modals[modalName].requiresInstances && view.title !== 'Crons') {
+      // TODO remove 'Crons view check' ? ******************************
+      // TODO instance code should be in aws namespace ? ******************************
+      if (
+        modals[modalName] &&
+        modals[modalName].requiresInstances &&
+        view.title !== "Crons"
+      ) {
         // if a row was passed in
         if (origRowNum || origRowNum === 0) {
           // get correct row
           row = getRowFromOriginalOrder(origRowNum);
           if (!row) {
-            return errors.handleError('There was a problem finding the selected instances.', errorMsgId);
+            return errors.handleError(
+              "There was a problem finding the selected instances.",
+              errorMsgId
+            );
           }
           selectedRows = [row];
-        }else {
+        } else {
           checkedRows = getCheckedRows();
           for (i = 0; i < checkedRows.length; i++) {
             selectedRows.push(getRowFromOriginalOrder(checkedRows[i]));
           }
         }
-        selectedInstancesInfo = aws.getInstanceInfoFromRows(selectedRows, tableData);
+        selectedInstancesInfo = aws.getInstanceInfoFromRows(
+          selectedRows,
+          tableData
+        );
         if (!selectedInstancesInfo || !selectedInstancesInfo.length) {
-          return errors.handleError('Please make a selection by clicking the checkboxes and try again.', tables.getLastTable().errorMsgId || errorMsgId);
+          return errors.handleError(
+            "Please make a selection by clicking the checkboxes and try again.",
+            tables.getLastTable().errorMsgId || errorMsgId
+          );
         }
-        var selectedInstancesIds = _.map(selectedInstancesInfo, function (instInfo) {
+        let selectedInstancesIds = _.map(selectedInstancesInfo, function (
+          instInfo
+        ) {
           return instInfo.identifier;
         });
         // add instance list
-        var ulElement = $('#' + modalName + '-instance-ids-ul');
-        var ulElementInnerHTML = '';
-        for (var j = 0; j < selectedInstancesIds.length; j++) {
-          ulElementInnerHTML += '<li>' + selectedInstancesIds[j] + '</li>';
+        let ulElement = $("#" + modalName + "-instance-ids-ul");
+        let ulElementInnerHTML = "";
+        for (let j = 0; j < selectedInstancesIds.length; j++) {
+          ulElementInnerHTML += "<li>" + selectedInstancesIds[j] + "</li>";
         }
         ulElement.html(ulElementInnerHTML);
         ulElement.show();
@@ -429,7 +442,10 @@ var pages = (function () {
       if (modals[modalName] && modals[modalName].requiresRows) {
         selectedRows = getSelectedRows();
         if (!selectedRows || !selectedRows.length) {
-          return errors.handleError('Please make a selection by clicking the checkboxes and try again.', errorMsgId);
+          return errors.handleError(
+            "Please make a selection by clicking the checkboxes and try again.",
+            errorMsgId
+          );
         }
       }
       // pass table data to the modals setup function
@@ -437,7 +453,7 @@ var pages = (function () {
         modals[modalName].setupFn(tableData, opts);
       }
       // show the modal
-      $('#' + modalName).modal('show');
+      $("#" + modalName).modal("show");
     } catch (error) {
       console.log(error);
       errors.handleError(error);
@@ -445,17 +461,17 @@ var pages = (function () {
   }
 
   // enable or disable search button when searching for table data
-  function updateSearchButton (isSearching, id, text) {
+  function updateSearchButton(isSearching, id, text) {
     try {
-      id = id || 'search-button';
-      var searchButton = $('#'+id);
+      id = id || "search-button";
+      let searchButton = $("#" + id);
       if (isSearching) {
-        text = text || 'Searching...';
-        searchButton.prop('disabled', true);
+        text = text || "Searching...";
+        searchButton.prop("disabled", true);
         searchButton.text(text);
       } else {
-        text = text || 'Search';
-        searchButton.prop('disabled', false);
+        text = text || "Search";
+        searchButton.prop("disabled", false);
         searchButton.text(text);
       }
     } catch (error) {
@@ -465,11 +481,11 @@ var pages = (function () {
   }
 
   // delete selection from db
-  function deleteSelection (event, origRow) {
+  function deleteSelection(event, origRow) {
     try {
       event.preventDefault();
 
-      var i;
+      let i;
       // get correct rows
       if (origRow || origRow == 0) {
         selectedRows = [getRowFromOriginalOrder(origRow)];
@@ -478,19 +494,24 @@ var pages = (function () {
       }
 
       if (!selectedRows || !selectedRows.length) {
-        return errors.handleError('Please make a selection by clicking the checkboxes and try again.', errorMsgId);
+        return errors.handleError(
+          "Please make a selection by clicking the checkboxes and try again.",
+          errorMsgId
+        );
       }
 
-      var confirmation = confirm('Are you sure you want to delete the selected item/s');
+      let confirmation = confirm(
+        "Are you sure you want to delete the selected item/s"
+      );
       if (!confirmation) {
         return;
       }
 
       // turn off the crons to delete, ignore errors
-      if (view.title === 'Crons') {
-        crons.startStopCrons(event, 'stop', selectedRows, true, null);
+      if (view.title === "Crons") {
+        crons.startStopCrons(event, "stop", selectedRows, true, null);
       }
-      var opts = {
+      let opts = {
         _ids: [],
         type: tables.getLastTable().type,
       };
@@ -499,13 +520,13 @@ var pages = (function () {
         opts._ids.push(item.pristineRow._id);
       });
       // send the request
-      $.post('/api/data/remove/ids', opts)
+      $.post("/api/data/remove/ids", opts)
         .done(function (data) {
           if (data.error) {
-            var table = tables.getLastTable();
+            let table = tables.getLastTable();
             return errors.handleError(data.error, table.errorMsgId);
           }
-// TODO initialize data within namespaces
+          // TODO initialize data within namespaces
           getInitialData();
         })
         .fail(function (err) {
@@ -538,4 +559,4 @@ var pages = (function () {
     updateSearchButton: updateSearchButton,
     views: views,
   };
-}());
+})();

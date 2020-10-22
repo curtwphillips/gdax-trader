@@ -1,54 +1,57 @@
-var settings = (function () {
-  var userSettings;
+let settings = (function () {
+  let userSettings;
 
-  var environmentSelectId = 'settings-env-select';
-  var regionSelectId = 'settings-region-select';
-  var hideColumnsSelectId = 'settings-columns-select';
-  var gdaxEnvsSelectId = 'settings-gdax-env-select';
+  let environmentSelectId = "settings-env-select";
+  let regionSelectId = "settings-region-select";
+  let hideColumnsSelectId = "settings-columns-select";
+  let gdaxEnvsSelectId = "settings-gdax-env-select";
 
-  var successMsgId = 'settings-success-msg';
-  var errorMsgId = 'settings-error-msg'
+  let successMsgId = "settings-success-msg";
+  let errorMsgId = "settings-error-msg";
 
-  function init () { setUserSelections(); }
-
-  function setUserSelections (ignoreIfSet) { // setup settings.html from db user info
-
+  function init() {
+    setUserSelections();
   }
 
-  function saveSettings (event) { // save changes to user settings on settings.html
+  function setUserSelections(ignoreIfSet) {
+    // setup settings.html from db user info
+  }
+
+  function saveSettings(event) {
+    // save changes to user settings on settings.html
     try {
       event.preventDefault();
-      var opts = {};
-      opts.envs = $('#'+environmentSelectId).val();
-      opts.regions = $('#'+regionSelectId).val();
-      opts.hiddenColumns = $('#'+hideColumnsSelectId).val();
-      opts.gdaxHideEnvs = $('#'+gdaxEnvsSelectId).val();
-      var params = {
+      let opts = {};
+      opts.envs = $("#" + environmentSelectId).val();
+      opts.regions = $("#" + regionSelectId).val();
+      opts.hiddenColumns = $("#" + hideColumnsSelectId).val();
+      opts.gdaxHideEnvs = $("#" + gdaxEnvsSelectId).val();
+      let params = {
         authToken: auth.getAuthToken(),
         settings: opts,
       };
       $.ajax({
-        url: '/api/user',
-        type: 'PUT',
-        data: params
+        url: "/api/user",
+        type: "PUT",
+        data: params,
       })
-      .done(function (data) {
-        if (data.error) {
-          return errors.handleError(data.error, errorMsgId);
-        }
-        auth.changeUserSettings({settings: opts});
-        errors.handleSuccess('', successMsgId);
-      })
-      .fail(function (err) {
-        errors.handleError(err, errorMsgId);
-      });
+        .done(function (data) {
+          if (data.error) {
+            return errors.handleError(data.error, errorMsgId);
+          }
+          auth.changeUserSettings({ settings: opts });
+          errors.handleSuccess("", successMsgId);
+        })
+        .fail(function (err) {
+          errors.handleError(err, errorMsgId);
+        });
     } catch (error) {
       console.log(error);
       errors.handleError(error);
     }
   }
 
-  document.addEventListener('changeUserSettings', function (e) {
+  document.addEventListener("changeUserSettings", function (e) {
     try {
       userSettings = e.detail;
       setUserSelections(true);
@@ -62,6 +65,6 @@ var settings = (function () {
     init: init,
     saveSettings: saveSettings,
     setUserSelections: setUserSelections,
-  }
+  };
   return pages.namespaces.settings;
-}());
+})();

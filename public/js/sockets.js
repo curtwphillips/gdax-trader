@@ -1,22 +1,21 @@
 // socket communicating with the portal node server
 
-var sockets = (function () {
+let sockets = (function () {
+  let filters;
 
-  var filters;
-
-  function init () {
+  function init() {
     filters = [
       {
-        topic: 'gdax',
-        listener: live
+        topic: "gdax",
+        listener: live,
       },
     ];
     try {
       // gdax must be imported
-      var options = {'forceNew':true};
-      var io_portal;
-      if (portal.env === 'local') {
-        io_portal = io.connect('http://localhost:3345', options);
+      let options = { forceNew: true };
+      let io_portal;
+      if (portal.env === "local") {
+        io_portal = io.connect("http://localhost:3345", options);
       }
       receiveTopicMessages(io_portal);
     } catch (error) {
@@ -46,5 +45,5 @@ var sockets = (function () {
 
   return {
     init: init,
-  }
-}());
+  };
+})();

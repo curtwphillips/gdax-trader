@@ -1,16 +1,16 @@
 // instantiated on initial page load
 (function () {
-  var navbarImportRetries = 0;
-  var modalImportRetries = 0;
+  let navbarImportRetries = 0;
+  let modalImportRetries = 0;
 
   importNavBar();
   importModals();
 
-  function importNavBar () {
+  function importNavBar() {
     // get the import
-    var theImport = document.querySelector('#navbar-import');
+    const theImport = document.querySelector("#navbar-import");
     // get the imported html
-    var htmlDoc = theImport.import;
+    const htmlDoc = theImport.import;
     // if not compatible browser, htmlDoc is null
     if (!htmlDoc) {
       return setTimeout(function () {
@@ -21,16 +21,16 @@
       }, 100);
     }
     // get the nav elem from the imported html
-    var elem = htmlDoc.querySelector('#main-nav');
+    const elem = htmlDoc.querySelector("#main-nav");
     // insert the nav element into the html body
     document.body.insertBefore(elem, document.body.childNodes[0]);
   }
 
-  function importModals () {
+  function importModals() {
     // get the import
-    var theImport = document.querySelector('#all-modals-import');
+    const theImport = document.querySelector("#all-modals-import");
     // get the imported html
-    var htmlDoc = theImport.import;
+    const htmlDoc = theImport.import;
     // if not compatible browser, htmlDoc is null
     if (!htmlDoc) {
       return setTimeout(function () {
@@ -41,8 +41,8 @@
       }, 100);
     }
     // get the elem from the imported html
-    var elem = htmlDoc.querySelector('#modal-import-container');
+    const elem = htmlDoc.querySelector("#modal-import-container");
     // insert the element into the html body
     document.body.appendChild(elem, document.body.childNodes[0]);
   }
-}());
+})();

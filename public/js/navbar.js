@@ -1,14 +1,14 @@
-var navbar = (function () {
+let navbar = (function () {
   window.addEventListener('WebComponentsReady', function(e) {
-    var loginLink = $('#nav-login-link');
-    var logoutLink = $('#nav-logout-link');
-    var portalLink = $('#nav-portal-link');
+    let loginLink = $('#nav-login-link');
+    let logoutLink = $('#nav-logout-link');
+    let portalLink = $('#nav-portal-link');
 
     if (window.location.pathname !== '/portal') {
       portalLink.addClass('active');
     }
 
-    var isAuthorized = true;
+    let isAuthorized = true;
 
     if (isAuthorized) {
       loggedIn();

@@ -1,38 +1,38 @@
-var domReady = false;
+let domReady = false;
 
-var portal = (function () {
+let portal = (function () {
   // used for logging
-  var file = '\nportal.js ';
-  var env = 'prod';
-  var hostname = location.hostname;
-  if (hostname === 'localhost') {
-    document.title = 'Gdax Trader';
-    env = 'local'
+  let file = "\nportal.js ";
+  let env = "prod";
+  let hostname = location.hostname;
+  if (hostname === "localhost") {
+    document.title = "Gdax Trader";
+    env = "local";
   }
 
   // user role such as admin, manager, staff
-  var userRole;
+  let userRole;
 
   // user settings, such as default selections
-  var userSettings;
+  let userSettings;
 
   // reference to current view title
-  var currentViewTitle = '/';
+  let currentViewTitle = "/";
 
   // listen for userSettings changes
-  document.addEventListener('userSettingsChange', function (e) {
+  document.addEventListener("userSettingsChange", function (e) {
     userSettings = e.detail;
     userRole = userSettings.role;
   });
 
   // initial set up
-  document.addEventListener("DOMContentLoaded", function(event) {
+  document.addEventListener("DOMContentLoaded", function (event) {
     // changeView(window.location.pathname);
-    changeView('/live');
+    changeView("/live");
   });
-  var retries = 0;
+  let retries = 0;
   // replace the current view
-  function changeView (path, event) {
+  function changeView(path, event) {
     try {
       if (event) {
         event.preventDefault();
@@ -43,7 +43,7 @@ var portal = (function () {
       }
       if (!domReady) {
         setTimeout(function () {
-          changeView (path);
+          changeView(path);
         }, 10);
         return;
       }
@@ -61,24 +61,24 @@ var portal = (function () {
       pages.setView(path);
       // attach the import if it is different from the current view's import
       if (!pages.views[path]) {
-        throw new Error('path not in views: ' + path);
+        throw new Error("path not in views: " + path);
       }
       if (currentViewTitle && !pages.views[currentViewTitle]) {
-        throw new Error('currentViewTitle not in views: ' + currentViewTitle);
+        throw new Error("currentViewTitle not in views: " + currentViewTitle);
       }
-      var pathImportLinkId = pages.views[path].importLinkId;
-      var currentImportLinkId = pages.views[currentViewTitle].importLinkId;
+      let pathImportLinkId = pages.views[path].importLinkId;
+      let currentImportLinkId = pages.views[currentViewTitle].importLinkId;
       if (!currentViewTitle || pathImportLinkId !== currentImportLinkId) {
         pages.attachImport();
       }
       currentViewTitle = path;
       updateView();
     } catch (error) {
-      console.log('error: ' + error);
+      console.log("error: " + error);
     }
   }
 
-  function updateView () {
+  function updateView() {
     if (!domReady) {
       return setTimeout(function () {
         updateView;
@@ -88,7 +88,7 @@ var portal = (function () {
     showBody();
   }
 
-  function showBody () {
+  function showBody() {
     setTimeout(function () {
       $(document.body).show();
     }, 0);
@@ -98,7 +98,7 @@ var portal = (function () {
     return Array.isArray(test);
   }
 
-  function isDomReady () {
+  function isDomReady() {
     return domReady;
   }
 
@@ -107,9 +107,9 @@ var portal = (function () {
     env: env,
     isDomReady: isDomReady,
   };
-}());
+})();
 
-window.addEventListener('WebComponentsReady', function(e) {
+window.addEventListener("WebComponentsReady", function (e) {
   // give dom extra ms before sharing that it is ready
   setTimeout(function () {
     domReady = true;

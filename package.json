@@ -3,6 +3,10 @@
   "version": "1.0.0",
   "description": "automated gdax trader",
   "main": "index.js",
+  "scripts": {
+    "clean": "rm -rf ./node_modules; npm i; npm audit fix;",
+    "lint": "eslint ./"
+  },
   "dependencies": {
     "es6-promisify": "^5.0.0",
     "gdax": "0.4.2",
@@ -21,10 +25,6 @@
     "stack-trace": "0.0.10",
     "winston": "^2.4.0",
     "winston-daily-rotate-file": "^1.7.2"
-  },
-  "devDependencies": {},
-  "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
   },
   "author": "Curt Phillips <curtwphillips@gmail.com> (https://curtwphillips.com)",
   "license": "ISC"
